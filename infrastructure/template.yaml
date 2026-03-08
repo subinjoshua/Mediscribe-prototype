@@ -1,20 +1,19 @@
 # AWS SAM Template — MediScribe Prototype
-# Filled in Prompt 1.1
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: MediScribe Prototype — AWS AI for Bharat Hackathon
 
 Globals:
   Function:
-    Runtime: python3.12
+    Runtime: python3.13
     MemorySize: 256
     Timeout: 60
     Environment:
       Variables:
-        PATIENTS_TABLE: !Ref PatientsTable
-        DRUGS_TABLE: !Ref DrugsTable
-        ALERTS_TABLE: !Ref AlertsTable
-        S3_BUCKET: !Ref UploadsBucket
+        PATIENTS_TABLE: MediScribe-Patients
+        DRUGS_TABLE: MediScribe-Drugs
+        ALERTS_TABLE: MediScribe-Alerts
+        S3_BUCKET: !Sub mediscribe-uploads-${AWS::AccountId}
         BEDROCK_MODEL_ID: us.anthropic.claude-sonnet-4-6
   Api:
     Cors:
@@ -25,68 +24,7 @@ Globals:
 Resources:
 
   # ──────────────────────────────────────────────
-  # DynamoDB Tables
-  # ──────────────────────────────────────────────
-
-  PatientsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: MediScribe-Patients
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: PK
-          AttributeType: S
-        - AttributeName: SK
-          AttributeType: S
-        - AttributeName: GSI1PK
-          AttributeType: S
-        - AttributeName: GSI1SK
-          AttributeType: S
-      KeySchema:
-        - AttributeName: PK
-          KeyType: HASH
-        - AttributeName: SK
-          KeyType: RANGE
-      GlobalSecondaryIndexes:
-        - IndexName: GSI1
-          KeySchema:
-            - AttributeName: GSI1PK
-              KeyType: HASH
-            - AttributeName: GSI1SK
-              KeyType: RANGE
-          Projection:
-            ProjectionType: ALL
-
-  DrugsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: MediScribe-Drugs
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: drugName
-          AttributeType: S
-      KeySchema:
-        - AttributeName: drugName
-          KeyType: HASH
-
-  AlertsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: MediScribe-Alerts
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: hospitalId
-          AttributeType: S
-        - AttributeName: alertTimestamp
-          AttributeType: S
-      KeySchema:
-        - AttributeName: hospitalId
-          KeyType: HASH
-        - AttributeName: alertTimestamp
-          KeyType: RANGE
-
-  # ──────────────────────────────────────────────
-  # S3 Bucket
+  # S3 Bucket (for prescription uploads)
   # ──────────────────────────────────────────────
 
   UploadsBucket:
@@ -101,8 +39,7 @@ Resources:
       CorsConfiguration:
         CorsRules:
           - AllowedOrigins:
-              - http://localhost:5173
-              - http://localhost:3000
+              - "*"
             AllowedMethods:
               - GET
               - PUT
@@ -140,17 +77,17 @@ Resources:
                   - dynamodb:Scan
                   - dynamodb:BatchWriteItem
                 Resource:
-                  - !GetAtt PatientsTable.Arn
-                  - !Sub ${PatientsTable.Arn}/index/*
-                  - !GetAtt DrugsTable.Arn
-                  - !GetAtt AlertsTable.Arn
+                  - !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/MediScribe-Patients
+                  - !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/MediScribe-Patients/index/*
+                  - !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/MediScribe-Drugs
+                  - !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/MediScribe-Alerts
               - Sid: S3Access
                 Effect: Allow
                 Action:
                   - s3:PutObject
                   - s3:GetObject
                 Resource:
-                  - !Sub ${UploadsBucket.Arn}/*
+                  - !Sub arn:aws:s3:::mediscribe-uploads-${AWS::AccountId}/*
               - Sid: TextractAccess
                 Effect: Allow
                 Action:
@@ -172,8 +109,10 @@ Resources:
   ProcessPhotoFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../backend/lambdas/
-      Handler: process_photo.lambda_handler
+      CodeUri: ../backend/
+      Handler: lambdas.process_photo.lambda_handler
+      Timeout: 120
+      MemorySize: 512
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         ProcessPhoto:
@@ -185,8 +124,8 @@ Resources:
   ValidateRxFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../backend/lambdas/
-      Handler: validate_rx.lambda_handler
+      CodeUri: ../backend/
+      Handler: lambdas.validate_rx.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         ValidateRx:
@@ -198,8 +137,8 @@ Resources:
   CheckOutbreakFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../backend/lambdas/
-      Handler: check_outbreak.lambda_handler
+      CodeUri: ../backend/
+      Handler: lambdas.check_outbreak.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         CheckOutbreak:
@@ -211,8 +150,8 @@ Resources:
   OutbreakDashboardFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../backend/lambdas/
-      Handler: outbreak_dashboard.lambda_handler
+      CodeUri: ../backend/
+      Handler: lambdas.outbreak_dashboard.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         OutbreakDashboard:
@@ -224,8 +163,10 @@ Resources:
   DischargeSummaryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../backend/lambdas/
-      Handler: discharge_summary.lambda_handler
+      CodeUri: ../backend/
+      Handler: lambdas.discharge_summary.lambda_handler
+      Timeout: 120
+      MemorySize: 512
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         DischargeSummary:
@@ -237,8 +178,8 @@ Resources:
   GetPatientsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../backend/lambdas/
-      Handler: get_patients.lambda_handler
+      CodeUri: ../backend/
+      Handler: lambdas.get_patients.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         GetAllPatients:
@@ -255,8 +196,8 @@ Resources:
   SeedDataFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../backend/lambdas/
-      Handler: seed_data.lambda_handler
+      CodeUri: ../backend/
+      Handler: lambdas.seed_data.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         SeedData:
