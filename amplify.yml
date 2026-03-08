@@ -8,6 +8,7 @@ frontend:
     build:
       commands:
         - echo "VITE_API_URL=$VITE_API_URL" > .env
+        - echo "VITE_DISCHARGE_URL=$VITE_DISCHARGE_URL" >> .env
         - npm run build
   artifacts:
     baseDirectory: frontend/dist

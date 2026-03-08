@@ -168,6 +168,15 @@ Resources:
       Timeout: 120
       MemorySize: 512
       Role: !GetAtt LambdaExecutionRole.Arn
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowOrigins:
+            - "*"
+          AllowMethods:
+            - POST
+          AllowHeaders:
+            - Content-Type
       Events:
         DischargeSummary:
           Type: Api
@@ -210,3 +219,6 @@ Outputs:
   ApiUrl:
     Description: API Gateway endpoint URL
     Value: !Sub https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+  DischargeSummaryUrl:
+    Description: Discharge Summary Function URL (bypasses API Gateway 29s timeout)
+    Value: !GetAtt DischargeSummaryFunctionUrl.FunctionUrl

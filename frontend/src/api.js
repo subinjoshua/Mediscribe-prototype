@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const DISCHARGE_URL = import.meta.env.VITE_DISCHARGE_URL || "";
 
 async function request(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
@@ -49,6 +50,25 @@ export async function getOutbreakDashboard(hospitalId = "mumbai-gen") {
 }
 
 export async function generateDischargeSummary(patientId, encounterId) {
+  // Use Lambda Function URL to bypass API Gateway's 29-second timeout
+  if (DISCHARGE_URL) {
+    const url = DISCHARGE_URL;
+    const body = JSON.stringify({ patientId, encounterId });
+    console.log(`[API] POST ${url}`, { patientId, encounterId });
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      const message = data.message || `API error: ${response.status}`;
+      console.error(`[API] POST ${url} failed:`, message);
+      throw new Error(message);
+    }
+    console.log(`[API] POST ${url} response:`, data);
+    return data;
+  }
   return request("/discharge-summary", {
     method: "POST",
     body: JSON.stringify({ patientId, encounterId }),
