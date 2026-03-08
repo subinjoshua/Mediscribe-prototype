@@ -110,7 +110,7 @@ export default function ProcessTab({ onPatientProcessed, onOutbreakAlert, onProc
       const patientContext = {
         age: result.patient?.age,
         gender: result.patient?.gender,
-        diagnosis: result.diagnosis?.diagnosis,
+        diagnosis: result.diagnosis,
         allergies: result.patient?.allergies || [],
       };
       await validatePrescription(result.medications || [], patientContext);
@@ -128,7 +128,7 @@ export default function ProcessTab({ onPatientProcessed, onOutbreakAlert, onProc
     try {
       const outbreakResult = await checkOutbreak(
         result.hospitalId || "mumbai-gen",
-        result.diagnosis?.diagnosis || ""
+        result.diagnosis || ""
       );
       onOutbreakAlert?.(outbreakResult);
     } catch (err) {
@@ -140,10 +140,14 @@ export default function ProcessTab({ onPatientProcessed, onOutbreakAlert, onProc
 
   const patient = result?.patient;
   const vitals = result?.vitals;
-  const diagnosis = result?.diagnosis;
+  const diagnosis = result ? {
+    chiefComplaint: result.chiefComplaint,
+    diagnosis: result.diagnosis,
+    icd10: result.icd10Code,
+  } : null;
   const medications = result?.medications || [];
-  const labs = result?.labs || [];
-  const rawText = result?.rawText || result?.raw_text || "";
+  const labs = result?.labsOrdered || result?.labs || [];
+  const rawText = result?.rawOcrText || result?.rawText || result?.raw_text || "";
 
   return (
     <div className="flex gap-6">
@@ -320,10 +324,10 @@ export default function ProcessTab({ onPatientProcessed, onOutbreakAlert, onProc
                 <CardContent>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {[
-                      { label: "BP", value: vitals.bp },
-                      { label: "HR", value: vitals.hr },
-                      { label: "Temp", value: vitals.temp },
-                      { label: "SpO2", value: vitals.spo2 },
+                      { label: "BP", value: vitals.bloodPressure },
+                      { label: "HR", value: vitals.heartRate },
+                      { label: "Temp", value: vitals.temperature },
+                      { label: "SpO2", value: vitals.spO2 },
                     ].map(
                       (v) =>
                         v.value != null && (

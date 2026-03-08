@@ -29,7 +29,7 @@ export default function ValidateTab({ processedPatient, onOutbreakAlert }) {
       runValidation(processedPatient.medications, {
         age: processedPatient.patient?.age,
         gender: processedPatient.patient?.gender,
-        diagnosis: processedPatient.diagnosis?.diagnosis,
+        diagnosis: processedPatient.diagnosis,
         allergies: processedPatient.patient?.allergies || [],
       });
     }
@@ -74,7 +74,7 @@ export default function ValidateTab({ processedPatient, onOutbreakAlert }) {
   };
 
   const patient = processedPatient?.patient;
-  const diagnosis = processedPatient?.diagnosis;
+  const diagnosis = processedPatient?.diagnosis; // string from backend
 
   const allAlerts = validationResult
     ? [
@@ -101,9 +101,9 @@ export default function ValidateTab({ processedPatient, onOutbreakAlert }) {
                 {patient.age && `${patient.age}`}
                 {patient.gender && patient.gender.charAt(0).toUpperCase()}
               </span>
-              {diagnosis?.diagnosis && (
+              {diagnosis && (
                 <span className="text-muted-foreground">
-                  | Diagnosis: {diagnosis.diagnosis}
+                  | Diagnosis: {diagnosis}
                 </span>
               )}
             </div>
