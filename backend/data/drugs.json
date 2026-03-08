@@ -1,0 +1,897 @@
+[
+  {
+    "drugName": "paracetamol",
+    "brandNames": ["Crocin", "Dolo", "Calpol", "Metacin"],
+    "category": "Analgesic/Antipyretic",
+    "safeRanges": {
+      "adult": { "minDose": 325, "maxDose": 1000, "maxDaily": 4000, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 15, "maxDose": 1000, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["ml instead of mg"],
+    "interactions": [
+      {
+        "drug": "warfarin",
+        "severity": "moderate",
+        "effect": "Increased anticoagulant effect with regular use"
+      }
+    ],
+    "contraindications": ["severe hepatic impairment", "active liver disease"],
+    "pregnancyCategory": "B",
+    "renalAdjustment": {
+      "gfr_10_50": "Increase interval to q6h",
+      "gfr_below_10": "Increase interval to q8h"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "amlodipine",
+    "brandNames": ["Amlong", "Amlokind", "Stamlo", "Amlopress"],
+    "category": "Calcium Channel Blocker",
+    "safeRanges": {
+      "adult": { "minDose": 2.5, "maxDose": 10, "maxDaily": 10, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 0.1, "maxDose": 5, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["confusing with atenolol"],
+    "interactions": [
+      {
+        "drug": "atorvastatin",
+        "severity": "moderate",
+        "effect": "Increased statin levels — risk of myopathy and rhabdomyolysis"
+      },
+      {
+        "drug": "metoprolol",
+        "severity": "moderate",
+        "effect": "Additive hypotension and bradycardia"
+      }
+    ],
+    "contraindications": ["severe aortic stenosis", "cardiogenic shock", "unstable angina"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "metformin",
+    "brandNames": ["Glycomet", "Glucophage", "Obimet", "Gluformin"],
+    "category": "Antidiabetic/Biguanide",
+    "safeRanges": {
+      "adult": { "minDose": 500, "maxDose": 1000, "maxDaily": 2550, "unit": "mg" },
+      "pediatric": { "weightBased": false, "dosePerKg": 0, "maxDose": 2000, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not holding before contrast dye procedures"],
+    "interactions": [
+      {
+        "drug": "furosemide",
+        "severity": "moderate",
+        "effect": "Furosemide increases metformin levels by reducing renal clearance"
+      },
+      {
+        "drug": "insulin glargine",
+        "severity": "moderate",
+        "effect": "Increased risk of hypoglycemia when combined"
+      }
+    ],
+    "contraindications": ["eGFR below 30", "metabolic acidosis", "diabetic ketoacidosis", "severe hepatic impairment"],
+    "pregnancyCategory": "B",
+    "renalAdjustment": {
+      "gfr_10_50": "Reduce dose to 500mg BD if eGFR 30-45; avoid if eGFR <30",
+      "gfr_below_10": "Contraindicated"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "aspirin",
+    "brandNames": ["Disprin", "Ecosprin", "Aspicot", "Delisprin"],
+    "category": "NSAID/Antiplatelet",
+    "safeRanges": {
+      "adult": { "minDose": 75, "maxDose": 325, "maxDaily": 4000, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 10, "maxDose": 1000, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["using in children with viral illness (Reye syndrome risk)"],
+    "interactions": [
+      {
+        "drug": "warfarin",
+        "severity": "major",
+        "effect": "Significantly increased bleeding risk — avoid combination if possible"
+      },
+      {
+        "drug": "clopidogrel",
+        "severity": "moderate",
+        "effect": "Additive antiplatelet effect — increased bleeding risk (but commonly used together post-MI)"
+      },
+      {
+        "drug": "ibuprofen",
+        "severity": "moderate",
+        "effect": "Ibuprofen may reduce antiplatelet effect of aspirin"
+      },
+      {
+        "drug": "metformin",
+        "severity": "minor",
+        "effect": "High-dose aspirin may enhance hypoglycemic effect"
+      }
+    ],
+    "contraindications": ["active GI bleeding", "hemophilia", "children under 16 with viral illness"],
+    "pregnancyCategory": "D",
+    "renalAdjustment": {
+      "gfr_10_50": "Use with caution; avoid high doses",
+      "gfr_below_10": "Avoid"
+    },
+    "avoidInConditions": ["Dengue Fever"]
+  },
+  {
+    "drugName": "warfarin",
+    "brandNames": ["Warf", "Coumadin", "Acitrom"],
+    "category": "Anticoagulant",
+    "safeRanges": {
+      "adult": { "minDose": 1, "maxDose": 10, "maxDaily": 10, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 0.2, "maxDose": 10, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not checking INR before dose adjustment", "confusing mg doses"],
+    "interactions": [
+      {
+        "drug": "aspirin",
+        "severity": "major",
+        "effect": "Significantly increased bleeding risk"
+      },
+      {
+        "drug": "clopidogrel",
+        "severity": "major",
+        "effect": "Significantly increased bleeding risk — triple therapy should be time-limited"
+      },
+      {
+        "drug": "paracetamol",
+        "severity": "moderate",
+        "effect": "Increased anticoagulant effect with regular use"
+      },
+      {
+        "drug": "ciprofloxacin",
+        "severity": "major",
+        "effect": "Inhibits warfarin metabolism — markedly increased INR and bleeding risk"
+      },
+      {
+        "drug": "omeprazole",
+        "severity": "moderate",
+        "effect": "May increase warfarin levels via CYP2C19 inhibition"
+      },
+      {
+        "drug": "amoxicillin",
+        "severity": "moderate",
+        "effect": "Alters gut flora reducing vitamin K production — increased INR"
+      },
+      {
+        "drug": "diclofenac",
+        "severity": "major",
+        "effect": "Increased bleeding risk — avoid concurrent NSAID use"
+      },
+      {
+        "drug": "ibuprofen",
+        "severity": "major",
+        "effect": "Increased bleeding risk — avoid concurrent NSAID use"
+      }
+    ],
+    "contraindications": ["active bleeding", "hemorrhagic stroke", "severe hepatic disease", "pregnancy"],
+    "pregnancyCategory": "X",
+    "renalAdjustment": {
+      "gfr_10_50": "Use with caution; monitor INR closely",
+      "gfr_below_10": "Use with caution; monitor INR closely"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "clopidogrel",
+    "brandNames": ["Clavix", "Clopitab", "Plagril", "Deplatt"],
+    "category": "Antiplatelet",
+    "safeRanges": {
+      "adult": { "minDose": 75, "maxDose": 300, "maxDaily": 300, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 75, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not giving loading dose in ACS"],
+    "interactions": [
+      {
+        "drug": "warfarin",
+        "severity": "major",
+        "effect": "Significantly increased bleeding risk — triple therapy should be time-limited"
+      },
+      {
+        "drug": "aspirin",
+        "severity": "moderate",
+        "effect": "Additive antiplatelet effect — increased bleeding risk (but commonly used together post-MI)"
+      },
+      {
+        "drug": "omeprazole",
+        "severity": "major",
+        "effect": "Omeprazole reduces clopidogrel activation via CYP2C19 inhibition — use pantoprazole instead"
+      }
+    ],
+    "contraindications": ["active pathological bleeding", "severe hepatic impairment"],
+    "pregnancyCategory": "B",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "Limited data; use with caution"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "atorvastatin",
+    "brandNames": ["Atorva", "Lipitor", "Tonact", "Storvas"],
+    "category": "Statin/Antihyperlipidemic",
+    "safeRanges": {
+      "adult": { "minDose": 10, "maxDose": 80, "maxDaily": 80, "unit": "mg" },
+      "pediatric": { "weightBased": false, "dosePerKg": 0, "maxDose": 20, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not monitoring LFTs", "not counseling about muscle pain"],
+    "interactions": [
+      {
+        "drug": "amlodipine",
+        "severity": "moderate",
+        "effect": "Amlodipine increases atorvastatin levels — limit atorvastatin to 40mg with amlodipine; risk of myopathy"
+      },
+      {
+        "drug": "warfarin",
+        "severity": "moderate",
+        "effect": "May increase warfarin effect — monitor INR"
+      },
+      {
+        "drug": "azithromycin",
+        "severity": "moderate",
+        "effect": "Increased risk of myopathy and rhabdomyolysis"
+      }
+    ],
+    "contraindications": ["active liver disease", "unexplained elevated transaminases", "pregnancy", "breastfeeding"],
+    "pregnancyCategory": "X",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required; use with caution"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "metoprolol",
+    "brandNames": ["Betaloc", "Met XL", "Metolar", "Lopresor"],
+    "category": "Beta Blocker",
+    "safeRanges": {
+      "adult": { "minDose": 25, "maxDose": 200, "maxDaily": 400, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 200, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["abrupt withdrawal causing rebound hypertension/angina"],
+    "interactions": [
+      {
+        "drug": "amlodipine",
+        "severity": "moderate",
+        "effect": "Additive hypotension and bradycardia"
+      },
+      {
+        "drug": "insulin glargine",
+        "severity": "moderate",
+        "effect": "May mask symptoms of hypoglycemia (tachycardia, tremor)"
+      },
+      {
+        "drug": "salbutamol",
+        "severity": "moderate",
+        "effect": "Beta blockers oppose bronchodilatory effect of salbutamol"
+      }
+    ],
+    "contraindications": ["severe bradycardia", "heart block greater than first degree", "decompensated heart failure", "cardiogenic shock"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "omeprazole",
+    "brandNames": ["Omez", "Ocid", "Omesec", "Prilosec"],
+    "category": "Proton Pump Inhibitor",
+    "safeRanges": {
+      "adult": { "minDose": 20, "maxDose": 40, "maxDaily": 40, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 20, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["long-term use without indication", "not taking 30 min before meals"],
+    "interactions": [
+      {
+        "drug": "clopidogrel",
+        "severity": "major",
+        "effect": "Reduces clopidogrel activation via CYP2C19 inhibition — use pantoprazole instead"
+      },
+      {
+        "drug": "warfarin",
+        "severity": "moderate",
+        "effect": "May increase warfarin levels via CYP2C19 inhibition"
+      },
+      {
+        "drug": "levothyroxine",
+        "severity": "moderate",
+        "effect": "Reduced levothyroxine absorption — separate dosing by 4 hours"
+      }
+    ],
+    "contraindications": ["hypersensitivity to PPIs"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "amoxicillin",
+    "brandNames": ["Amoxil", "Mox", "Novamox", "Wymox"],
+    "category": "Antibiotic/Penicillin",
+    "safeRanges": {
+      "adult": { "minDose": 250, "maxDose": 1000, "maxDaily": 3000, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 25, "maxDose": 1000, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["prescribing to penicillin-allergic patients", "ml instead of mg for suspension"],
+    "interactions": [
+      {
+        "drug": "warfarin",
+        "severity": "moderate",
+        "effect": "Alters gut flora reducing vitamin K production — increased INR"
+      }
+    ],
+    "contraindications": ["penicillin allergy", "history of amoxicillin-associated cholestatic jaundice"],
+    "pregnancyCategory": "B",
+    "renalAdjustment": {
+      "gfr_10_50": "250-500mg q12h",
+      "gfr_below_10": "250-500mg q24h"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "ciprofloxacin",
+    "brandNames": ["Ciplox", "Cifran", "Ciprobid", "Zoxan"],
+    "category": "Antibiotic/Fluoroquinolone",
+    "safeRanges": {
+      "adult": { "minDose": 250, "maxDose": 750, "maxDaily": 1500, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 10, "maxDose": 750, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not warning about tendon rupture risk", "taking with dairy or antacids"],
+    "interactions": [
+      {
+        "drug": "warfarin",
+        "severity": "major",
+        "effect": "Inhibits warfarin metabolism — markedly increased INR and bleeding risk"
+      },
+      {
+        "drug": "levothyroxine",
+        "severity": "moderate",
+        "effect": "Reduced levothyroxine absorption — separate by 4 hours"
+      },
+      {
+        "drug": "metformin",
+        "severity": "moderate",
+        "effect": "May cause hypoglycemia or hyperglycemia — monitor blood glucose"
+      }
+    ],
+    "contraindications": ["tendon disorders related to fluoroquinolone use", "myasthenia gravis", "concurrent tizanidine use"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "250-500mg q12h",
+      "gfr_below_10": "250-500mg q18-24h"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "azithromycin",
+    "brandNames": ["Azithral", "Zithromax", "Azee", "Azicip"],
+    "category": "Antibiotic/Macrolide",
+    "safeRanges": {
+      "adult": { "minDose": 250, "maxDose": 500, "maxDaily": 500, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 10, "maxDose": 500, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not considering QT prolongation risk", "prescribing beyond 5 days without indication"],
+    "interactions": [
+      {
+        "drug": "warfarin",
+        "severity": "moderate",
+        "effect": "Increased anticoagulant effect — monitor INR"
+      },
+      {
+        "drug": "atorvastatin",
+        "severity": "moderate",
+        "effect": "Increased risk of myopathy and rhabdomyolysis"
+      }
+    ],
+    "contraindications": ["history of cholestatic jaundice with prior azithromycin use", "known QT prolongation"],
+    "pregnancyCategory": "B",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "Use with caution"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "insulin glargine",
+    "brandNames": ["Lantus", "Basalog", "Glaritus", "Toujeo"],
+    "category": "Antidiabetic/Long-acting Insulin",
+    "safeRanges": {
+      "adult": { "minDose": 10, "maxDose": 80, "maxDaily": 80, "unit": "units" },
+      "pediatric": { "weightBased": true, "dosePerKg": 0.5, "maxDose": 40, "unit": "units" }
+    },
+    "validUnits": ["units"],
+    "commonErrors": ["writing mg instead of units", "confusing with rapid-acting insulin", "wrong pen device"],
+    "interactions": [
+      {
+        "drug": "metformin",
+        "severity": "moderate",
+        "effect": "Increased risk of hypoglycemia when combined"
+      },
+      {
+        "drug": "metoprolol",
+        "severity": "moderate",
+        "effect": "Beta blockers may mask symptoms of hypoglycemia"
+      },
+      {
+        "drug": "prednisone",
+        "severity": "major",
+        "effect": "Corticosteroids cause hyperglycemia — may require insulin dose increase"
+      },
+      {
+        "drug": "hydrochlorothiazide",
+        "severity": "moderate",
+        "effect": "Thiazides may increase blood glucose — may need insulin dose adjustment"
+      }
+    ],
+    "contraindications": ["hypoglycemia", "hypersensitivity to insulin glargine"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "Reduce dose; increased risk of hypoglycemia due to decreased insulin clearance",
+      "gfr_below_10": "Reduce dose significantly; close monitoring required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "losartan",
+    "brandNames": ["Losacar", "Losar", "Repace", "Covance"],
+    "category": "Angiotensin II Receptor Blocker (ARB)",
+    "safeRanges": {
+      "adult": { "minDose": 25, "maxDose": 100, "maxDaily": 100, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 0.7, "maxDose": 50, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["using in pregnancy", "not monitoring potassium"],
+    "interactions": [
+      {
+        "drug": "ramipril",
+        "severity": "major",
+        "effect": "Dual RAAS blockade — increased risk of hyperkalemia, hypotension, and renal failure"
+      },
+      {
+        "drug": "hydrochlorothiazide",
+        "severity": "moderate",
+        "effect": "Additive hypotension (but commonly co-prescribed as combination)"
+      },
+      {
+        "drug": "furosemide",
+        "severity": "moderate",
+        "effect": "Additive hypotension; monitor renal function"
+      }
+    ],
+    "contraindications": ["pregnancy", "bilateral renal artery stenosis", "hyperkalemia"],
+    "pregnancyCategory": "D",
+    "renalAdjustment": {
+      "gfr_10_50": "No initial dose adjustment; monitor closely",
+      "gfr_below_10": "Start at lowest dose; monitor potassium and renal function"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "hydrochlorothiazide",
+    "brandNames": ["Aquazide", "Hydrazide", "Esidrex"],
+    "category": "Thiazide Diuretic",
+    "safeRanges": {
+      "adult": { "minDose": 12.5, "maxDose": 50, "maxDaily": 50, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 37.5, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not monitoring electrolytes", "using high doses without benefit"],
+    "interactions": [
+      {
+        "drug": "metformin",
+        "severity": "moderate",
+        "effect": "May increase blood glucose levels"
+      },
+      {
+        "drug": "insulin glargine",
+        "severity": "moderate",
+        "effect": "May increase blood glucose — may need insulin dose adjustment"
+      },
+      {
+        "drug": "losartan",
+        "severity": "moderate",
+        "effect": "Additive hypotension (but commonly co-prescribed as combination)"
+      },
+      {
+        "drug": "furosemide",
+        "severity": "moderate",
+        "effect": "Additive diuretic effect — risk of dehydration and electrolyte imbalance"
+      }
+    ],
+    "contraindications": ["anuria", "sulfonamide allergy", "severe hyponatremia or hypokalemia"],
+    "pregnancyCategory": "B",
+    "renalAdjustment": {
+      "gfr_10_50": "May be less effective; consider loop diuretic",
+      "gfr_below_10": "Ineffective as monotherapy; avoid"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "prednisone",
+    "brandNames": ["Omnacortil", "Wysolone", "Deltasone", "Predone"],
+    "category": "Corticosteroid",
+    "safeRanges": {
+      "adult": { "minDose": 5, "maxDose": 60, "maxDaily": 80, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 60, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["abrupt withdrawal after long-term use", "not tapering dose"],
+    "interactions": [
+      {
+        "drug": "insulin glargine",
+        "severity": "major",
+        "effect": "Corticosteroids cause hyperglycemia — may require insulin dose increase"
+      },
+      {
+        "drug": "metformin",
+        "severity": "moderate",
+        "effect": "Corticosteroids increase blood glucose — may reduce metformin efficacy"
+      },
+      {
+        "drug": "aspirin",
+        "severity": "moderate",
+        "effect": "Increased risk of GI bleeding; corticosteroids reduce aspirin levels"
+      },
+      {
+        "drug": "warfarin",
+        "severity": "moderate",
+        "effect": "Unpredictable effect on INR — monitor closely"
+      }
+    ],
+    "contraindications": ["systemic fungal infections", "live vaccine administration"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "diclofenac",
+    "brandNames": ["Voveran", "Diclomol", "Voltaren", "Reactin"],
+    "category": "NSAID",
+    "safeRanges": {
+      "adult": { "minDose": 25, "maxDose": 75, "maxDaily": 150, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 50, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["using in dengue patients", "using in renal impairment"],
+    "interactions": [
+      {
+        "drug": "warfarin",
+        "severity": "major",
+        "effect": "Increased bleeding risk — avoid concurrent NSAID use"
+      },
+      {
+        "drug": "aspirin",
+        "severity": "moderate",
+        "effect": "Increased GI bleeding risk; may reduce aspirin antiplatelet effect"
+      },
+      {
+        "drug": "metformin",
+        "severity": "minor",
+        "effect": "NSAIDs may reduce renal function affecting metformin clearance"
+      },
+      {
+        "drug": "furosemide",
+        "severity": "moderate",
+        "effect": "NSAIDs reduce diuretic efficacy and increase nephrotoxicity risk"
+      },
+      {
+        "drug": "ramipril",
+        "severity": "moderate",
+        "effect": "Reduces antihypertensive effect; increased risk of renal impairment"
+      }
+    ],
+    "contraindications": ["active GI bleeding", "severe heart failure", "severe renal impairment", "third trimester pregnancy"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "Use with caution at lowest effective dose",
+      "gfr_below_10": "Avoid"
+    },
+    "avoidInConditions": ["Dengue Fever"]
+  },
+  {
+    "drugName": "doxycycline",
+    "brandNames": ["Doxt", "Doxicip", "Microdox", "Vibramycin"],
+    "category": "Antibiotic/Tetracycline",
+    "safeRanges": {
+      "adult": { "minDose": 100, "maxDose": 200, "maxDaily": 200, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 2, "maxDose": 200, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["taking with dairy or antacids", "lying down immediately after dose (esophagitis risk)"],
+    "interactions": [
+      {
+        "drug": "warfarin",
+        "severity": "moderate",
+        "effect": "May increase anticoagulant effect — monitor INR"
+      },
+      {
+        "drug": "antacids",
+        "severity": "major",
+        "effect": "Antacids reduce doxycycline absorption — separate by 2-3 hours"
+      }
+    ],
+    "contraindications": ["pregnancy", "children under 8 years (dental staining)", "severe hepatic dysfunction"],
+    "pregnancyCategory": "D",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "pantoprazole",
+    "brandNames": ["Pan", "Pantocid", "Pantop", "Nupenta"],
+    "category": "Proton Pump Inhibitor",
+    "safeRanges": {
+      "adult": { "minDose": 20, "maxDose": 40, "maxDaily": 80, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 40, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["long-term use without reassessment", "not taking before meals"],
+    "interactions": [
+      {
+        "drug": "levothyroxine",
+        "severity": "moderate",
+        "effect": "Reduced levothyroxine absorption — separate dosing by 4 hours"
+      }
+    ],
+    "contraindications": ["hypersensitivity to PPIs"],
+    "pregnancyCategory": "B",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "furosemide",
+    "brandNames": ["Lasix", "Frusamide", "Frusemide"],
+    "category": "Loop Diuretic",
+    "safeRanges": {
+      "adult": { "minDose": 20, "maxDose": 80, "maxDaily": 600, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 40, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not monitoring electrolytes (K+, Na+, Mg2+)", "rapid IV administration"],
+    "interactions": [
+      {
+        "drug": "metformin",
+        "severity": "moderate",
+        "effect": "Furosemide increases metformin levels by reducing renal clearance"
+      },
+      {
+        "drug": "losartan",
+        "severity": "moderate",
+        "effect": "Additive hypotension; monitor renal function"
+      },
+      {
+        "drug": "diclofenac",
+        "severity": "moderate",
+        "effect": "NSAIDs reduce diuretic efficacy and increase nephrotoxicity risk"
+      },
+      {
+        "drug": "ramipril",
+        "severity": "moderate",
+        "effect": "Additive hypotension; risk of acute renal failure if over-diuresed"
+      }
+    ],
+    "contraindications": ["anuria", "hepatic coma", "severe electrolyte depletion"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "May need higher doses for effect",
+      "gfr_below_10": "Higher doses often required; max 1-2g/day IV in severe cases"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "enoxaparin",
+    "brandNames": ["Clexane", "Lonopin", "Enclex"],
+    "category": "Anticoagulant/Low Molecular Weight Heparin",
+    "safeRanges": {
+      "adult": { "minDose": 20, "maxDose": 80, "maxDaily": 160, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 1, "maxDose": 80, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["not adjusting for renal function", "confusing mg with units"],
+    "interactions": [
+      {
+        "drug": "aspirin",
+        "severity": "major",
+        "effect": "Increased bleeding risk — use with caution"
+      },
+      {
+        "drug": "warfarin",
+        "severity": "major",
+        "effect": "Overlapping anticoagulation — ensure proper bridging protocol"
+      },
+      {
+        "drug": "clopidogrel",
+        "severity": "major",
+        "effect": "Increased bleeding risk when combined"
+      }
+    ],
+    "contraindications": ["active major bleeding", "thrombocytopenia with positive anti-platelet antibody test", "hypersensitivity to heparin"],
+    "pregnancyCategory": "B",
+    "renalAdjustment": {
+      "gfr_10_50": "Reduce to 1mg/kg once daily for treatment doses",
+      "gfr_below_10": "Reduce to 1mg/kg once daily; monitor anti-Xa levels"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "salbutamol",
+    "brandNames": ["Asthalin", "Ventolin", "Salbair", "Derihaler"],
+    "category": "Bronchodilator/Beta-2 Agonist",
+    "safeRanges": {
+      "adult": { "minDose": 2, "maxDose": 4, "maxDaily": 32, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 0.1, "maxDose": 2, "unit": "mg" }
+    },
+    "validUnits": ["mg", "mcg", "puffs"],
+    "commonErrors": ["overuse of rescue inhaler", "not using spacer device"],
+    "interactions": [
+      {
+        "drug": "metoprolol",
+        "severity": "moderate",
+        "effect": "Beta blockers oppose bronchodilatory effect of salbutamol"
+      }
+    ],
+    "contraindications": ["hypersensitivity to salbutamol"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "levothyroxine",
+    "brandNames": ["Thyronorm", "Eltroxin", "Thyrox", "Lethyrox"],
+    "category": "Thyroid Hormone",
+    "safeRanges": {
+      "adult": { "minDose": 25, "maxDose": 200, "maxDaily": 300, "unit": "mcg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 5, "maxDose": 200, "unit": "mcg" }
+    },
+    "validUnits": ["mcg"],
+    "commonErrors": ["taking with food or calcium supplements", "confusing mcg with mg (10x overdose)"],
+    "interactions": [
+      {
+        "drug": "omeprazole",
+        "severity": "moderate",
+        "effect": "Reduced levothyroxine absorption — separate dosing by 4 hours"
+      },
+      {
+        "drug": "pantoprazole",
+        "severity": "moderate",
+        "effect": "Reduced levothyroxine absorption — separate dosing by 4 hours"
+      },
+      {
+        "drug": "ciprofloxacin",
+        "severity": "moderate",
+        "effect": "Reduced levothyroxine absorption — separate by 4 hours"
+      },
+      {
+        "drug": "warfarin",
+        "severity": "moderate",
+        "effect": "Levothyroxine increases warfarin sensitivity — monitor INR"
+      }
+    ],
+    "contraindications": ["untreated adrenal insufficiency", "acute myocardial infarction (unless with hypothyroidism)"],
+    "pregnancyCategory": "A",
+    "renalAdjustment": {
+      "gfr_10_50": "No adjustment required",
+      "gfr_below_10": "No adjustment required"
+    },
+    "avoidInConditions": []
+  },
+  {
+    "drugName": "ibuprofen",
+    "brandNames": ["Brufen", "Ibugesic", "Combiflam", "Advil"],
+    "category": "NSAID",
+    "safeRanges": {
+      "adult": { "minDose": 200, "maxDose": 800, "maxDaily": 2400, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 10, "maxDose": 400, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["using in dengue patients", "using with aspirin (reduces antiplatelet effect)"],
+    "interactions": [
+      {
+        "drug": "aspirin",
+        "severity": "moderate",
+        "effect": "Ibuprofen may reduce antiplatelet effect of aspirin"
+      },
+      {
+        "drug": "warfarin",
+        "severity": "major",
+        "effect": "Increased bleeding risk — avoid concurrent NSAID use"
+      },
+      {
+        "drug": "ramipril",
+        "severity": "moderate",
+        "effect": "Reduces antihypertensive effect; increased risk of renal impairment"
+      },
+      {
+        "drug": "furosemide",
+        "severity": "moderate",
+        "effect": "NSAIDs reduce diuretic efficacy and increase nephrotoxicity risk"
+      },
+      {
+        "drug": "metformin",
+        "severity": "minor",
+        "effect": "NSAIDs may reduce renal function affecting metformin clearance"
+      }
+    ],
+    "contraindications": ["active GI bleeding", "severe heart failure", "severe renal impairment", "third trimester pregnancy"],
+    "pregnancyCategory": "C",
+    "renalAdjustment": {
+      "gfr_10_50": "Use with caution at lowest effective dose",
+      "gfr_below_10": "Avoid"
+    },
+    "avoidInConditions": ["Dengue Fever"]
+  },
+  {
+    "drugName": "ramipril",
+    "brandNames": ["Cardace", "Ramistar", "Ramipres", "Zigpril"],
+    "category": "ACE Inhibitor",
+    "safeRanges": {
+      "adult": { "minDose": 1.25, "maxDose": 10, "maxDaily": 10, "unit": "mg" },
+      "pediatric": { "weightBased": true, "dosePerKg": 0.05, "maxDose": 5, "unit": "mg" }
+    },
+    "validUnits": ["mg"],
+    "commonErrors": ["using in pregnancy", "not monitoring potassium and creatinine"],
+    "interactions": [
+      {
+        "drug": "losartan",
+        "severity": "major",
+        "effect": "Dual RAAS blockade — increased risk of hyperkalemia, hypotension, and renal failure"
+      },
+      {
+        "drug": "furosemide",
+        "severity": "moderate",
+        "effect": "Additive hypotension; risk of acute renal failure if over-diuresed"
+      },
+      {
+        "drug": "diclofenac",
+        "severity": "moderate",
+        "effect": "Reduces antihypertensive effect; increased risk of renal impairment"
+      },
+      {
+        "drug": "ibuprofen",
+        "severity": "moderate",
+        "effect": "Reduces antihypertensive effect; increased risk of renal impairment"
+      }
+    ],
+    "contraindications": ["pregnancy", "bilateral renal artery stenosis", "angioedema history with ACE inhibitors", "hyperkalemia"],
+    "pregnancyCategory": "D",
+    "renalAdjustment": {
+      "gfr_10_50": "Start at 1.25mg OD; titrate cautiously",
+      "gfr_below_10": "Start at 1.25mg OD; max 5mg/day"
+    },
+    "avoidInConditions": []
+  }
+]

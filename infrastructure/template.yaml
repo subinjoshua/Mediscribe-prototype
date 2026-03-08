@@ -1,0 +1,271 @@
+# AWS SAM Template — MediScribe Prototype
+# Filled in Prompt 1.1
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: MediScribe Prototype — AWS AI for Bharat Hackathon
+
+Globals:
+  Function:
+    Runtime: python3.12
+    MemorySize: 256
+    Timeout: 60
+    Environment:
+      Variables:
+        PATIENTS_TABLE: !Ref PatientsTable
+        DRUGS_TABLE: !Ref DrugsTable
+        ALERTS_TABLE: !Ref AlertsTable
+        S3_BUCKET: !Ref UploadsBucket
+        BEDROCK_MODEL_ID: us.anthropic.claude-sonnet-4-6
+  Api:
+    Cors:
+      AllowOrigin: "'*'"
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'Content-Type,Authorization'"
+
+Resources:
+
+  # ──────────────────────────────────────────────
+  # DynamoDB Tables
+  # ──────────────────────────────────────────────
+
+  PatientsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: MediScribe-Patients
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+        - AttributeName: GSI1PK
+          AttributeType: S
+        - AttributeName: GSI1SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: GSI1
+          KeySchema:
+            - AttributeName: GSI1PK
+              KeyType: HASH
+            - AttributeName: GSI1SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+  DrugsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: MediScribe-Drugs
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: drugName
+          AttributeType: S
+      KeySchema:
+        - AttributeName: drugName
+          KeyType: HASH
+
+  AlertsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: MediScribe-Alerts
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: hospitalId
+          AttributeType: S
+        - AttributeName: alertTimestamp
+          AttributeType: S
+      KeySchema:
+        - AttributeName: hospitalId
+          KeyType: HASH
+        - AttributeName: alertTimestamp
+          KeyType: RANGE
+
+  # ──────────────────────────────────────────────
+  # S3 Bucket
+  # ──────────────────────────────────────────────
+
+  UploadsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub mediscribe-uploads-${AWS::AccountId}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      CorsConfiguration:
+        CorsRules:
+          - AllowedOrigins:
+              - http://localhost:5173
+              - http://localhost:3000
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+            AllowedHeaders:
+              - "*"
+
+  # ──────────────────────────────────────────────
+  # IAM Role (shared by all Lambdas)
+  # ──────────────────────────────────────────────
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: MediScribeLambdaPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: DynamoDBAccess
+                Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                  - dynamodb:BatchWriteItem
+                Resource:
+                  - !GetAtt PatientsTable.Arn
+                  - !Sub ${PatientsTable.Arn}/index/*
+                  - !GetAtt DrugsTable.Arn
+                  - !GetAtt AlertsTable.Arn
+              - Sid: S3Access
+                Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                Resource:
+                  - !Sub ${UploadsBucket.Arn}/*
+              - Sid: TextractAccess
+                Effect: Allow
+                Action:
+                  - textract:DetectDocumentText
+                  - textract:AnalyzeDocument
+                Resource: "*"
+              - Sid: BedrockAccess
+                Effect: Allow
+                Action:
+                  - bedrock:InvokeModel
+                Resource:
+                  - arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-6
+                  - !Sub arn:aws:bedrock:*:${AWS::AccountId}:inference-profile/us.anthropic.claude-sonnet-4-6
+
+  # ──────────────────────────────────────────────
+  # Lambda Functions
+  # ──────────────────────────────────────────────
+
+  ProcessPhotoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend/lambdas/
+      Handler: process_photo.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        ProcessPhoto:
+          Type: Api
+          Properties:
+            Path: /process-photo
+            Method: POST
+
+  ValidateRxFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend/lambdas/
+      Handler: validate_rx.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        ValidateRx:
+          Type: Api
+          Properties:
+            Path: /validate-rx
+            Method: POST
+
+  CheckOutbreakFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend/lambdas/
+      Handler: check_outbreak.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        CheckOutbreak:
+          Type: Api
+          Properties:
+            Path: /check-outbreak
+            Method: POST
+
+  OutbreakDashboardFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend/lambdas/
+      Handler: outbreak_dashboard.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        OutbreakDashboard:
+          Type: Api
+          Properties:
+            Path: /outbreak-dashboard
+            Method: GET
+
+  DischargeSummaryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend/lambdas/
+      Handler: discharge_summary.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        DischargeSummary:
+          Type: Api
+          Properties:
+            Path: /discharge-summary
+            Method: POST
+
+  GetPatientsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend/lambdas/
+      Handler: get_patients.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        GetAllPatients:
+          Type: Api
+          Properties:
+            Path: /patients
+            Method: GET
+        GetPatientById:
+          Type: Api
+          Properties:
+            Path: /patients/{id}
+            Method: GET
+
+  SeedDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend/lambdas/
+      Handler: seed_data.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        SeedData:
+          Type: Api
+          Properties:
+            Path: /seed-data
+            Method: POST
+
+Outputs:
+  ApiUrl:
+    Description: API Gateway endpoint URL
+    Value: !Sub https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/

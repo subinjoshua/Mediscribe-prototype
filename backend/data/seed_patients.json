@@ -1,0 +1,477 @@
+[
+  {
+    "PK": "PATIENT#P001",
+    "SK": "PROFILE",
+    "patientId": "P001",
+    "name": "Ramesh Kumar",
+    "age": 63,
+    "gender": "Male",
+    "bloodGroup": "B+",
+    "allergies": ["penicillin"],
+    "medicalHistory": ["Type 2 Diabetes", "Hypertension"],
+    "currentMedications": [
+      {"name": "Metformin", "dose": "500mg", "frequency": "BD"},
+      {"name": "Amlodipine", "dose": "5mg", "frequency": "OD"}
+    ],
+    "address": "Andheri West, Mumbai",
+    "hospitalId": "mumbai-gen",
+    "attendingDoctor": "Dr. Priya Sharma"
+  },
+  {
+    "PK": "PATIENT#P002",
+    "SK": "PROFILE",
+    "patientId": "P002",
+    "name": "Sunita Devi",
+    "age": 35,
+    "gender": "Female",
+    "hospitalId": "mumbai-gen",
+    "attendingDoctor": "Dr. Priya Sharma"
+  },
+  {
+    "PK": "PATIENT#P003",
+    "SK": "PROFILE",
+    "patientId": "P003",
+    "name": "Amit Patel",
+    "age": 12,
+    "gender": "Male",
+    "hospitalId": "mumbai-gen",
+    "attendingDoctor": "Dr. Priya Sharma"
+  },
+  {
+    "PK": "PATIENT#P004",
+    "SK": "PROFILE",
+    "patientId": "P004",
+    "name": "Fatima Sheikh",
+    "age": 45,
+    "gender": "Female",
+    "hospitalId": "mumbai-gen",
+    "attendingDoctor": "Dr. Priya Sharma"
+  },
+  {
+    "PK": "PATIENT#P005",
+    "SK": "PROFILE",
+    "patientId": "P005",
+    "name": "Rajesh Verma",
+    "age": 28,
+    "gender": "Male",
+    "hospitalId": "mumbai-gen",
+    "attendingDoctor": "Dr. Priya Sharma"
+  },
+  {
+    "PK": "PATIENT#P006",
+    "SK": "PROFILE",
+    "patientId": "P006",
+    "name": "Priya Nair",
+    "age": 50,
+    "gender": "Female",
+    "hospitalId": "mumbai-gen",
+    "attendingDoctor": "Dr. Priya Sharma"
+  },
+
+  {
+    "PK": "PATIENT#P001",
+    "SK": "ENCOUNTER#E001",
+    "encounterId": "E001",
+    "patientId": "P001",
+    "admissionDate": "2026-03-01T08:00:00Z",
+    "dischargeDate": "2026-03-06T10:00:00Z",
+    "chiefComplaint": "Acute onset substernal chest pain radiating to left arm",
+    "vitals": {
+      "bloodPressure": "160/95",
+      "heartRate": 105,
+      "temperature": 98.8,
+      "spO2": 96,
+      "respiratoryRate": 22
+    },
+    "primaryDiagnosis": {"code": "I21.4", "description": "NSTEMI"},
+    "secondaryDiagnoses": [
+      {"code": "I10", "description": "Hypertension"},
+      {"code": "E11.9", "description": "Type 2 Diabetes"}
+    ],
+    "procedures": [
+      "Coronary angiography",
+      "PCI with drug-eluting stent to LAD"
+    ],
+    "status": "discharged",
+    "hospitalId": "mumbai-gen"
+  },
+  {
+    "PK": "PATIENT#P002",
+    "SK": "ENCOUNTER#E002",
+    "encounterId": "E002",
+    "patientId": "P002",
+    "admissionDate": "2026-03-06T08:10:00Z",
+    "chiefComplaint": "Fever, headache, myalgia, retro-orbital pain",
+    "symptoms": ["fever", "headache", "myalgia", "retro-orbital pain"],
+    "vitals": {
+      "temperature": 102.5,
+      "bloodPressure": "105/70",
+      "heartRate": 98,
+      "spO2": 98
+    },
+    "primaryDiagnosis": {"code": "A90", "description": "Dengue Fever"},
+    "status": "active",
+    "hospitalId": "mumbai-gen"
+  },
+  {
+    "PK": "PATIENT#P003",
+    "SK": "ENCOUNTER#E003",
+    "encounterId": "E003",
+    "patientId": "P003",
+    "admissionDate": "2026-03-06T09:20:00Z",
+    "chiefComplaint": "High fever, rash, nausea, low platelets",
+    "symptoms": ["high fever", "rash", "nausea", "low platelets"],
+    "vitals": {
+      "temperature": 103.0,
+      "bloodPressure": "95/60",
+      "heartRate": 110,
+      "spO2": 97
+    },
+    "primaryDiagnosis": {"code": "A90", "description": "Dengue Fever"},
+    "status": "active",
+    "hospitalId": "mumbai-gen"
+  },
+  {
+    "PK": "PATIENT#P004",
+    "SK": "ENCOUNTER#E004",
+    "encounterId": "E004",
+    "patientId": "P004",
+    "admissionDate": "2026-03-06T07:30:00Z",
+    "chiefComplaint": "Cyclical fever, chills, sweating",
+    "symptoms": ["cyclical fever", "chills", "sweating"],
+    "vitals": {
+      "temperature": 104.0,
+      "bloodPressure": "110/75",
+      "heartRate": 92,
+      "spO2": 96
+    },
+    "primaryDiagnosis": {"code": "B54", "description": "Malaria"},
+    "status": "active",
+    "hospitalId": "mumbai-gen"
+  },
+  {
+    "PK": "PATIENT#P005",
+    "SK": "ENCOUNTER#E005",
+    "encounterId": "E005",
+    "patientId": "P005",
+    "admissionDate": "2026-03-06T10:45:00Z",
+    "chiefComplaint": "Fever, joint pain, rash, fatigue",
+    "symptoms": ["fever", "joint pain", "rash", "fatigue"],
+    "vitals": {
+      "temperature": 101.8,
+      "bloodPressure": "108/68",
+      "heartRate": 95,
+      "spO2": 98
+    },
+    "primaryDiagnosis": {"code": "A90", "description": "Dengue Fever"},
+    "status": "active",
+    "hospitalId": "mumbai-gen"
+  },
+  {
+    "PK": "PATIENT#P006",
+    "SK": "ENCOUNTER#E006",
+    "encounterId": "E006",
+    "patientId": "P006",
+    "admissionDate": "2026-03-06T12:15:00Z",
+    "chiefComplaint": "Fever, severe headache, muscle pain, nausea",
+    "symptoms": ["fever", "severe headache", "muscle pain", "nausea"],
+    "vitals": {
+      "temperature": 102.0,
+      "bloodPressure": "100/65",
+      "heartRate": 100,
+      "spO2": 97
+    },
+    "primaryDiagnosis": {"code": "A90", "description": "Dengue Fever"},
+    "status": "active",
+    "hospitalId": "mumbai-gen"
+  },
+
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "NOTE#2026-03-01T20:00:00Z",
+    "encounterId": "E001",
+    "date": "2026-03-01",
+    "day": 1,
+    "author": "Dr. Priya Sharma",
+    "note": "Emergency presentation with acute substernal chest pain radiating to left arm. Started on DAPT (aspirin + clopidogrel), heparin infusion, and nitroglycerin. ECG showed ST depression in leads V3-V6. Troponin I elevated at 8.2 ng/mL. Cardiology consult requested. Patient hemodynamically stable on monitoring."
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "NOTE#2026-03-02T18:00:00Z",
+    "encounterId": "E001",
+    "date": "2026-03-02",
+    "day": 2,
+    "author": "Dr. Priya Sharma",
+    "note": "Taken for coronary angiography which revealed 90% stenosis of LAD artery. Underwent PCI with drug-eluting stent (DES) placement to LAD. Post-procedure hemodynamically stable. Troponin trending down to 5.8 ng/mL. Continued on DAPT and heparin. No chest pain post-procedure."
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "NOTE#2026-03-03T18:00:00Z",
+    "encounterId": "E001",
+    "date": "2026-03-03",
+    "day": 3,
+    "author": "Dr. Priya Sharma",
+    "note": "Post-PCI Day 1. Hemodynamically stable. Chest pain free. Troponin trending down to 3.1 ng/mL. Started on high-intensity statin (Atorvastatin 40mg). Adjusted diabetes medications — continued Metformin 500mg BD. Heparin discontinued. Patient tolerating oral diet well."
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "NOTE#2026-03-04T18:00:00Z",
+    "encounterId": "E001",
+    "date": "2026-03-04",
+    "day": 4,
+    "author": "Dr. Priya Sharma",
+    "note": "Mobilized to bedside and corridor. Tolerating oral diet. Troponin 1.2 ng/mL. BP well controlled on Ramipril 5mg + Metoprolol 25mg BD. Echocardiogram performed showing mild LV dysfunction with ejection fraction (EF) 45%. No pericardial effusion. Plan to continue current medications and monitor."
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "NOTE#2026-03-05T18:00:00Z",
+    "encounterId": "E001",
+    "date": "2026-03-05",
+    "day": 5,
+    "author": "Dr. Priya Sharma",
+    "note": "Fit for discharge. Cardiac rehabilitation discussed with patient and family. Discharge medications reviewed and explained. Follow-up appointments arranged: Cardiology in 2 weeks, Diabetology in 1 month. Patient educated on warning signs requiring emergency presentation. Dietary and lifestyle modifications counseled."
+  },
+
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "MED#M001",
+    "encounterId": "E001",
+    "medicationId": "M001",
+    "name": "Aspirin",
+    "dose": "75mg",
+    "frequency": "OD",
+    "duration": "lifelong",
+    "reason": "Antiplatelet post-MI"
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "MED#M002",
+    "encounterId": "E001",
+    "medicationId": "M002",
+    "name": "Clopidogrel",
+    "dose": "75mg",
+    "frequency": "OD",
+    "duration": "12 months",
+    "reason": "Dual antiplatelet post-stent"
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "MED#M003",
+    "encounterId": "E001",
+    "medicationId": "M003",
+    "name": "Atorvastatin",
+    "dose": "40mg",
+    "frequency": "OD at bedtime",
+    "duration": "lifelong",
+    "reason": "Dyslipidemia post-MI"
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "MED#M004",
+    "encounterId": "E001",
+    "medicationId": "M004",
+    "name": "Metoprolol",
+    "dose": "25mg",
+    "frequency": "BD",
+    "duration": "lifelong",
+    "reason": "Post-MI rate control"
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "MED#M005",
+    "encounterId": "E001",
+    "medicationId": "M005",
+    "name": "Ramipril",
+    "dose": "5mg",
+    "frequency": "OD",
+    "duration": "lifelong",
+    "reason": "Post-MI, hypertension"
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "MED#M006",
+    "encounterId": "E001",
+    "medicationId": "M006",
+    "name": "Metformin",
+    "dose": "500mg",
+    "frequency": "BD",
+    "duration": "ongoing",
+    "reason": "Type 2 Diabetes"
+  },
+
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "LAB#2026-03-01T09:00:00Z",
+    "encounterId": "E001",
+    "date": "2026-03-01",
+    "label": "Admission Labs",
+    "results": {
+      "troponin": {"value": 8.2, "unit": "ng/mL", "reference": "< 0.04"},
+      "hemoglobin": {"value": 13.5, "unit": "g/dL", "reference": "13.5-17.5"},
+      "creatinine": {"value": 1.1, "unit": "mg/dL", "reference": "0.7-1.3"},
+      "glucose": {"value": 185, "unit": "mg/dL", "reference": "70-100"},
+      "totalCholesterol": {"value": 240, "unit": "mg/dL", "reference": "< 200"},
+      "ldl": {"value": 160, "unit": "mg/dL", "reference": "< 100"},
+      "hdl": {"value": 35, "unit": "mg/dL", "reference": "> 40"},
+      "hba1c": {"value": 7.2, "unit": "%", "reference": "< 5.7"}
+    }
+  },
+  {
+    "PK": "ENCOUNTER#E001",
+    "SK": "LAB#2026-03-04T08:00:00Z",
+    "encounterId": "E001",
+    "date": "2026-03-04",
+    "label": "Day 4 Labs",
+    "results": {
+      "troponin": {"value": 1.2, "unit": "ng/mL", "reference": "< 0.04"},
+      "hemoglobin": {"value": 12.8, "unit": "g/dL", "reference": "13.5-17.5"},
+      "creatinine": {"value": 1.0, "unit": "mg/dL", "reference": "0.7-1.3"},
+      "glucose": {"value": 145, "unit": "mg/dL", "reference": "70-100"}
+    }
+  },
+
+  {
+    "PK": "DIAGNOSIS#D001",
+    "SK": "DETAIL",
+    "diagnosisId": "D001",
+    "patientId": "P001",
+    "encounterId": "E001",
+    "code": "I21.4",
+    "description": "NSTEMI",
+    "date": "2026-03-01T08:00:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-01T08:00:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D002",
+    "SK": "DETAIL",
+    "diagnosisId": "D002",
+    "patientId": "P002",
+    "encounterId": "E002",
+    "code": "A90",
+    "description": "Dengue Fever",
+    "date": "2026-03-06T08:10:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-06T08:10:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D003",
+    "SK": "DETAIL",
+    "diagnosisId": "D003",
+    "patientId": "P003",
+    "encounterId": "E003",
+    "code": "A90",
+    "description": "Dengue Fever",
+    "date": "2026-03-06T09:20:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-06T09:20:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D004",
+    "SK": "DETAIL",
+    "diagnosisId": "D004",
+    "patientId": "P004",
+    "encounterId": "E004",
+    "code": "B54",
+    "description": "Malaria",
+    "date": "2026-03-06T07:30:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-06T07:30:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D005",
+    "SK": "DETAIL",
+    "diagnosisId": "D005",
+    "patientId": "P005",
+    "encounterId": "E005",
+    "code": "A90",
+    "description": "Dengue Fever",
+    "date": "2026-03-06T10:45:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-06T10:45:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D006",
+    "SK": "DETAIL",
+    "diagnosisId": "D006",
+    "patientId": "P006",
+    "encounterId": "E006",
+    "code": "A90",
+    "description": "Dengue Fever",
+    "date": "2026-03-06T12:15:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-06T12:15:00Z"
+  },
+
+  {
+    "PK": "DIAGNOSIS#D007",
+    "SK": "DETAIL",
+    "diagnosisId": "D007",
+    "patientId": "P_HIST_001",
+    "encounterId": "E_HIST_001",
+    "code": "A90",
+    "description": "Dengue Fever",
+    "date": "2026-03-02T14:30:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-02T14:30:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D008",
+    "SK": "DETAIL",
+    "diagnosisId": "D008",
+    "patientId": "P_HIST_002",
+    "encounterId": "E_HIST_002",
+    "code": "B54",
+    "description": "Malaria",
+    "date": "2026-03-01T11:00:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-01T11:00:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D009",
+    "SK": "DETAIL",
+    "diagnosisId": "D009",
+    "patientId": "P_HIST_003",
+    "encounterId": "E_HIST_003",
+    "code": "B54",
+    "description": "Malaria",
+    "date": "2026-03-03T09:15:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-03T09:15:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D010",
+    "SK": "DETAIL",
+    "diagnosisId": "D010",
+    "patientId": "P_HIST_004",
+    "encounterId": "E_HIST_004",
+    "code": "A01.0",
+    "description": "Typhoid Fever",
+    "date": "2026-03-04T16:45:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-04T16:45:00Z"
+  },
+  {
+    "PK": "DIAGNOSIS#D011",
+    "SK": "DETAIL",
+    "diagnosisId": "D011",
+    "patientId": "P_HIST_005",
+    "encounterId": "E_HIST_005",
+    "code": "A15.0",
+    "description": "Tuberculosis of lung",
+    "date": "2026-03-05T10:30:00Z",
+    "hospitalId": "mumbai-gen",
+    "GSI1PK": "HOSPITAL#mumbai-gen",
+    "GSI1SK": "DX#2026-03-05T10:30:00Z"
+  }
+]
