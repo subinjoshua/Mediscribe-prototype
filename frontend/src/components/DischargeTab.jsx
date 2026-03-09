@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { generateDischargeSummary, getPatients } from "../api";
+import { generateDischargeSummary, getPatients, getPatient } from "../api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -119,7 +119,16 @@ export default function DischargeTab({ processedPatients = [] }) {
     setGenerationTime(null);
     setElapsedTime(0);
     try {
-      const data = await generateDischargeSummary(patient.patientId, getEncounterId());
+      let encounterId = getEncounterId();
+      // If encounterId looks like a patientId (no encounter found), fetch patient detail
+      if (!encounterId || encounterId === patient.patientId) {
+        const detail = await getPatient(patient.patientId);
+        const latestEncounter = detail?.encounters?.[0];
+        if (latestEncounter?.encounterId) {
+          encounterId = latestEncounter.encounterId;
+        }
+      }
+      const data = await generateDischargeSummary(patient.patientId, encounterId);
       setGenerationTime(data.generationTimeMs);
       setSummary(data.summary);
     } catch (err) {

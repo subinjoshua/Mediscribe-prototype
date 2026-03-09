@@ -170,13 +170,6 @@ Resources:
       Role: !GetAtt LambdaExecutionRole.Arn
       FunctionUrlConfig:
         AuthType: NONE
-        Cors:
-          AllowOrigins:
-            - "*"
-          AllowMethods:
-            - POST
-          AllowHeaders:
-            - Content-Type
       Events:
         DischargeSummary:
           Type: Api

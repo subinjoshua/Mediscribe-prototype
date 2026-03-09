@@ -114,6 +114,11 @@ def _classify_encounter_items(items):
 
 
 def lambda_handler(event, context):
+    # Handle CORS preflight for Lambda Function URL
+    http_method = event.get("requestContext", {}).get("http", {}).get("method", "")
+    if http_method == "OPTIONS":
+        return success_response({})
+
     try:
         body = json.loads(event.get("body", "{}"))
         patient_id = body.get("patientId")
