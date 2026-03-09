@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { generateDischargeSummary } from "../api";
+import { generateDischargeSummary, getPatients } from "../api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,23 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
-import { Loader2, CheckCircle2, AlertCircle, AlertTriangle, Printer, Pencil } from "lucide-react";
-
-const DEMO_PATIENTS = [
-  {
-    patientId: "P001",
-    encounterId: "E001",
-    name: "Ramesh Kumar",
-    age: 63,
-    gender: "Male",
-    bloodGroup: "B+",
-    diagnosis: "NSTEMI (Non-ST Elevation Myocardial Infarction)",
-    admissionDate: "2026-03-01",
-    dischargeDate: "2026-03-06",
-    lengthOfStay: 5,
-    attendingDoctor: "Dr. Priya Sharma",
-  },
-];
+import { Loader2, CheckCircle2, AlertCircle, AlertTriangle, Printer, Pencil, RefreshCw } from "lucide-react";
 
 function InfoItem({ label, value }) {
   return (
@@ -44,15 +28,65 @@ function InstructionBlock({ label, text }) {
   );
 }
 
-export default function DischargeTab() {
-  const [selectedPatient, setSelectedPatient] = useState("P001");
+export default function DischargeTab({ processedPatients = [] }) {
+  const [patients, setPatients] = useState([]);
+  const [selectedPatientId, setSelectedPatientId] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isLoadingPatients, setIsLoadingPatients] = useState(true);
   const [generationTime, setGenerationTime] = useState(null);
   const [summary, setSummary] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [error, setError] = useState(null);
 
   const timerRef = useRef(null);
+
+  // Fetch patients from DynamoDB on mount
+  useEffect(() => {
+    const fetchPatients = async () => {
+      setIsLoadingPatients(true);
+      try {
+        const data = await getPatients();
+        const fetched = (data.patients || []).map((p) => ({
+          patientId: p.patientId,
+          name: p.name || "Unknown",
+          age: p.age,
+          gender: p.gender,
+          diagnosis: p.latestDiagnosis || "—",
+        }));
+        setPatients(fetched);
+        if (fetched.length > 0 && !selectedPatientId) {
+          setSelectedPatientId(fetched[0].patientId);
+        }
+      } catch (err) {
+        console.error("Failed to fetch patients:", err);
+      } finally {
+        setIsLoadingPatients(false);
+      }
+    };
+    fetchPatients();
+  }, []);
+
+  // Merge session-processed patients into the list
+  const allPatients = [...patients];
+  for (const pp of processedPatients) {
+    if (!allPatients.some((p) => p.patientId === pp.patientId)) {
+      allPatients.push({
+        patientId: pp.patientId,
+        encounterId: pp.encounterId,
+        name: pp.patient?.name || "Unknown",
+        age: pp.patient?.age,
+        gender: pp.patient?.gender,
+        diagnosis: pp.diagnosis || "—",
+      });
+    }
+  }
+
+  // Auto-select first patient if none selected
+  useEffect(() => {
+    if (!selectedPatientId && allPatients.length > 0) {
+      setSelectedPatientId(allPatients[0].patientId);
+    }
+  }, [allPatients.length]);
 
   useEffect(() => {
     if (isGenerating) {
@@ -69,7 +103,13 @@ export default function DischargeTab() {
     };
   }, [isGenerating]);
 
-  const patient = DEMO_PATIENTS.find((p) => p.patientId === selectedPatient);
+  const patient = allPatients.find((p) => p.patientId === selectedPatientId);
+
+  // Find encounterId — session-processed patients have it directly
+  const getEncounterId = () => {
+    const sessionPatient = processedPatients.find((p) => p.patientId === selectedPatientId);
+    return sessionPatient?.encounterId || patient?.encounterId || selectedPatientId;
+  };
 
   const handleGenerate = async () => {
     if (!patient) return;
@@ -79,7 +119,7 @@ export default function DischargeTab() {
     setGenerationTime(null);
     setElapsedTime(0);
     try {
-      const data = await generateDischargeSummary(patient.patientId, patient.encounterId);
+      const data = await generateDischargeSummary(patient.patientId, getEncounterId());
       setGenerationTime(data.generationTimeMs);
       setSummary(data.summary);
     } catch (err) {
@@ -89,40 +129,73 @@ export default function DischargeTab() {
     }
   };
 
+  const handleRefresh = async () => {
+    setIsLoadingPatients(true);
+    try {
+      const data = await getPatients();
+      const fetched = (data.patients || []).map((p) => ({
+        patientId: p.patientId,
+        name: p.name || "Unknown",
+        age: p.age,
+        gender: p.gender,
+        diagnosis: p.latestDiagnosis || "—",
+      }));
+      setPatients(fetched);
+    } catch (err) {
+      console.error("Failed to fetch patients:", err);
+    } finally {
+      setIsLoadingPatients(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Patient Selector */}
       <Card>
         <CardHeader>
-          <CardTitle>Select Patient for Discharge</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>Select Patient for Discharge</CardTitle>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRefresh}
+              disabled={isLoadingPatients}
+            >
+              <RefreshCw className={`h-4 w-4 mr-1 ${isLoadingPatients ? "animate-spin" : ""}`} />
+              Refresh
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <select
-            value={selectedPatient}
-            onChange={(e) => {
-              setSelectedPatient(e.target.value);
-              setSummary(null);
-              setGenerationTime(null);
-              setError(null);
-            }}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
-            {DEMO_PATIENTS.map((p) => (
-              <option key={p.patientId} value={p.patientId}>
-                {p.name} ({p.patientId}) &mdash; {p.diagnosis}
-              </option>
-            ))}
-          </select>
+          {allPatients.length === 0 && !isLoadingPatients ? (
+            <p className="text-center text-muted-foreground py-4">
+              No patients found. Process a prescription first or seed demo data.
+            </p>
+          ) : (
+            <select
+              value={selectedPatientId}
+              onChange={(e) => {
+                setSelectedPatientId(e.target.value);
+                setSummary(null);
+                setGenerationTime(null);
+                setError(null);
+              }}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              {allPatients.map((p) => (
+                <option key={p.patientId} value={p.patientId}>
+                  {p.name} &mdash; {p.diagnosis}
+                </option>
+              ))}
+            </select>
+          )}
 
           {patient && (
             <div className="bg-muted/50 rounded-lg p-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
               <InfoItem label="Name" value={patient.name} />
-              <InfoItem label="Age / Gender" value={`${patient.age}y, ${patient.gender}`} />
+              <InfoItem label="Age / Gender" value={`${patient.age || "—"}${patient.gender ? `, ${patient.gender}` : ""}`} />
               <InfoItem label="Diagnosis" value={patient.diagnosis} />
-              <InfoItem
-                label="Length of Stay"
-                value={`${patient.lengthOfStay} days (${patient.admissionDate} to ${patient.dischargeDate})`}
-              />
+              <InfoItem label="Patient ID" value={patient.patientId?.slice(0, 8) + "..."} />
             </div>
           )}
         </CardContent>

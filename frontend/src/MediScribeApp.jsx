@@ -11,6 +11,7 @@ import { seedData } from "./api";
 export default function MediScribeApp() {
   const [activeTab, setActiveTab] = useState("process");
   const [processedPatient, setProcessedPatient] = useState(null);
+  const [processedPatients, setProcessedPatients] = useState([]);
   const [outbreakAlert, setOutbreakAlert] = useState(null);
   const [isSeeded, setIsSeeded] = useState(false);
   const [seeding, setSeeding] = useState(false);
@@ -27,6 +28,10 @@ export default function MediScribeApp() {
 
   const handlePatientProcessed = (patient) => {
     setProcessedPatient(patient);
+    setProcessedPatients((prev) => {
+      const exists = prev.some((p) => p.patientId === patient.patientId);
+      return exists ? prev : [...prev, patient];
+    });
     setActiveTab("validate");
   };
 
@@ -139,7 +144,7 @@ export default function MediScribeApp() {
           </TabsContent>
 
           <TabsContent value="discharge" className="tab-content">
-            <DischargeTab />
+            <DischargeTab processedPatients={processedPatients} />
           </TabsContent>
         </Tabs>
       </div>
