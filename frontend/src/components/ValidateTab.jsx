@@ -8,10 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2, CheckCircle2, AlertCircle, User } from "lucide-react";
 
-export default function ValidateTab({ processedPatient, onOutbreakAlert }) {
-  const [validationResult, setValidationResult] = useState(null);
+export default function ValidateTab({
+  processedPatient, onOutbreakAlert,
+  validationResult, setValidationResult,
+  corrections, setCorrections,
+}) {
   const [isValidating, setIsValidating] = useState(false);
-  const [corrections, setCorrections] = useState({});
   const [error, setError] = useState(null);
 
   const [manualForm, setManualForm] = useState({
@@ -25,7 +27,8 @@ export default function ValidateTab({ processedPatient, onOutbreakAlert }) {
   });
 
   useEffect(() => {
-    if (processedPatient?.medications?.length > 0) {
+    // Only run validation if we don't already have results (prevents re-triggering on tab switch)
+    if (processedPatient?.medications?.length > 0 && !validationResult) {
       runValidation(processedPatient.medications, {
         age: processedPatient.patient?.age,
         gender: processedPatient.patient?.gender,
@@ -39,7 +42,6 @@ export default function ValidateTab({ processedPatient, onOutbreakAlert }) {
     setIsValidating(true);
     setError(null);
     setValidationResult(null);
-    setCorrections({});
     try {
       const result = await validatePrescription(medications, patientContext);
       setValidationResult(result);
@@ -197,6 +199,7 @@ export default function ValidateTab({ processedPatient, onOutbreakAlert }) {
                   key={i}
                   severity={alert.severity}
                   type={alert.type}
+                  corrected={!!corrected}
                   title={`${alert.type?.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())} \u2014 ${alert.drug}`}
                   message={alert.message}
                   details={

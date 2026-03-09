@@ -1,7 +1,7 @@
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, AlertTriangle, Info } from "lucide-react";
+import { AlertCircle, AlertTriangle, Info, CheckCircle2 } from "lucide-react";
 
 const SEVERITY_CONFIG = {
   critical: {
@@ -38,17 +38,18 @@ export default function AlertCard({
   details,
   onAction,
   actionLabel,
+  corrected,
 }) {
   const config = SEVERITY_CONFIG[severity] || SEVERITY_CONFIG.info;
-  const Icon = config.icon;
+  const Icon = corrected ? CheckCircle2 : config.icon;
 
   return (
-    <Alert className={`${config.className} mb-3`}>
-      <Icon className="h-5 w-5 mt-0.5" />
-      <AlertTitle className={`flex items-center gap-2 flex-wrap ${config.titleClass}`}>
-        {severity.toUpperCase()}: {title}
+    <Alert className={`${corrected ? "border-l-4 border-l-green-500 bg-green-50" : config.className} mb-3`}>
+      <Icon className={`h-5 w-5 mt-0.5 ${corrected ? "text-green-600" : ""}`} />
+      <AlertTitle className={`flex items-center gap-2 flex-wrap ${corrected ? "text-green-800" : config.titleClass}`}>
+        {corrected ? "CORRECTED" : severity.toUpperCase()}: {title}
         {type && (
-          <Badge variant="outline" className={config.badgeClass}>
+          <Badge variant="outline" className={corrected ? "bg-green-100 text-green-800 border-green-200" : config.badgeClass}>
             {type.replace(/_/g, " ")}
           </Badge>
         )}

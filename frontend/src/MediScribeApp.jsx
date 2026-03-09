@@ -17,6 +17,12 @@ export default function MediScribeApp() {
   const [seeding, setSeeding] = useState(false);
   const [now, setNow] = useState(new Date());
 
+  // Lifted state — survives tab switches
+  const [processResult, setProcessResult] = useState(null);
+  const [processImagePreview, setProcessImagePreview] = useState(null);
+  const [validationResult, setValidationResult] = useState(null);
+  const [validationCorrections, setValidationCorrections] = useState({});
+
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(timer);
@@ -28,6 +34,9 @@ export default function MediScribeApp() {
 
   const handlePatientProcessed = (patient) => {
     setProcessedPatient(patient);
+    // Clear old validation for the new patient
+    setValidationResult(null);
+    setValidationCorrections({});
     setProcessedPatients((prev) => {
       const exists = prev.some((p) => p.patientId === patient.patientId);
       return exists ? prev : [...prev, patient];
@@ -126,6 +135,10 @@ export default function MediScribeApp() {
 
           <TabsContent value="process" className="tab-content">
             <ProcessTab
+              processResult={processResult}
+              setProcessResult={setProcessResult}
+              processImagePreview={processImagePreview}
+              setProcessImagePreview={setProcessImagePreview}
               onPatientProcessed={handlePatientProcessed}
               onOutbreakAlert={handleOutbreakAlert}
               onProcessingComplete={handleProcessingComplete}
@@ -135,6 +148,10 @@ export default function MediScribeApp() {
           <TabsContent value="validate" className="tab-content">
             <ValidateTab
               processedPatient={processedPatient}
+              validationResult={validationResult}
+              setValidationResult={setValidationResult}
+              corrections={validationCorrections}
+              setCorrections={setValidationCorrections}
               onOutbreakAlert={handleOutbreakAlert}
             />
           </TabsContent>

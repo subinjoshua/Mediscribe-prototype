@@ -24,12 +24,14 @@ function ConfidenceBadge({ value }) {
   );
 }
 
-export default function ProcessTab({ onPatientProcessed, onOutbreakAlert, onProcessingComplete }) {
+export default function ProcessTab({
+  processResult: result, setProcessResult: setResult,
+  processImagePreview: imagePreview, setProcessImagePreview: setImagePreview,
+  onPatientProcessed, onOutbreakAlert, onProcessingComplete,
+}) {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingTime, setProcessingTime] = useState(0);
-  const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [showRawOcr, setShowRawOcr] = useState(false);
   const [actionLoading, setActionLoading] = useState(null);
@@ -196,7 +198,7 @@ export default function ProcessTab({ onPatientProcessed, onOutbreakAlert, onProc
 
             <Button
               onClick={handleProcess}
-              disabled={!selectedImage || isProcessing}
+              disabled={(!selectedImage && !imagePreview) || isProcessing}
               className="w-full"
               size="lg"
             >
